@@ -1,3 +1,6 @@
-import sum from './sum';
+import React from 'react';
+import ReactDOM from 'react-dom';
 
-console.log(sum(2, 4));
+import Root from './Root';
+
+ReactDOM.render(<Root />, document.getElementById('root'));
