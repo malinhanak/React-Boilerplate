@@ -1,12 +1,23 @@
 const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 const PATH_SOURCE = path.join(__dirname, './src');
 const PATH_DIST = path.join(__dirname, './dist');
 
 module.exports = {
-  mode: 'development',
   entry: [path.join(PATH_SOURCE, 'index.js')],
   output: { path: PATH_DIST, filename: 'js/[name].[hash].js' },
+  devServer: {
+    contentBase: PATH_DIST,
+    host: 'localhost',
+    port: 8080,
+    historyApiFallback: true,
+    overlay: {
+      errors: true,
+      warnings: true,
+    },
+  },
   module: {
     rules: [
       {
@@ -30,4 +41,10 @@ module.exports = {
       },
     ],
   },
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: path.join(PATH_SOURCE, './index.html'),
+    }),
+    new CleanWebpackPlugin(),
+  ],
 };
