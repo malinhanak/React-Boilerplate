@@ -6,7 +6,29 @@
   "scripts": {
     "build": "webpack --mode=production --config webpack.config.js",
     "dev": "webpack --mode=development --config webpack.config.js",
-    "devserver": "webpack-dev-server --mode=development --config webpack.config.js"
+    "dev:server": "webpack-dev-server --mode=development --config webpack.config.js"
+  },
+  "jest": {
+    "setupFilesAfterEnv": [
+      "<rootDir>/src/helpers/utils-test/setupTest.js"
+    ],
+    "moduleDirectories": [
+      "node_modules",
+      "helpers/utils-test",
+      "<rootDir>"
+    ],
+    "moduleNameMapper": {
+      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/src/helpers/utils-test/fileTransformer.js",
+      "\\.(css|less)$": "identity-obj-proxy"
+    },
+    "collectCoverage": false,
+    "collectCoverageFrom": [
+      "src/*.{js,jsx}",
+      "!/node_modules/**",
+      "!/.vscode/**",
+      "!/coverage/**",
+      "!*src/firebase.js"
+    ]
   },
   "keywords": [
     "react",
@@ -30,6 +52,8 @@
     "core-js": "^3.6.4",
     "css-loader": "^3.4.2",
     "file-loader": "^5.0.2",
+    "identity-obj-proxy": "^3.0.0",
+    "jest-styled-components": "^7.0.0",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
     "style-loader": "^1.1.2",
