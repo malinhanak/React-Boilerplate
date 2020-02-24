@@ -3,7 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 const PATH_SOURCE = path.join(__dirname, './src');
-const PATH_DIST = path.join(__dirname, './dist');
+const PATH_DIST = path.join(__dirname, './build');
 
 module.exports = {
   entry: [path.join(PATH_SOURCE, 'index.js')],
@@ -17,28 +17,14 @@ module.exports = {
       errors: true,
       warnings: true,
     },
+    open: true,
   },
   module: {
     rules: [
       {
-        test: /\.js$/,
-        exclude: /node_modules/,
-        use: {
-          loader: 'babel-loader',
-          options: {
-            presets: [
-              [
-                '@babel/preset-env',
-                {
-                  debug: false,
-                  useBuiltIns: 'usage',
-                  corejs: 3,
-                },
-              ],
-              '@babel/preset-react',
-            ],
-          },
-        },
+        test: /\.(js|jsx)$/,
+        exclude: /(node_modules|bower_components|__test__|\.test)/,
+        use: ['babel-loader'],
       },
       {
         test: /\.css$/,
@@ -54,10 +40,20 @@ module.exports = {
         ],
       },
       {
-        test: /\.(png|svg|jpg|gif)$/,
-        use: ['file-loader'],
+        test: /\.(png|svg|jpg|gif|ttf)$/,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              name: '[path][name].[ext]',
+            },
+          },
+        ],
       },
     ],
+  },
+  resolve: {
+    extensions: ['*', '.js', '.jsx'],
   },
   plugins: [
     new HtmlWebpackPlugin({
